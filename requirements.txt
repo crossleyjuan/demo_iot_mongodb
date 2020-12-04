@@ -1,0 +1,4 @@
+pymongo
+Faker
+dnspython
+jinja2

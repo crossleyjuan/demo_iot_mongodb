@@ -1,0 +1,10 @@
+{ 
+    "id" : "{{ data.cacharro.id }}", 
+    "vars" : [ 
+        { "id" : "sensor1", "value" : {{ data.temperatura }} },
+        { "id" : "sensor2", "value" : {{ data.energy }} },
+        { "id" : "sensor3", "value" : {{ data.humidity }} },
+        { "id" : "sensor4", "value" : {{ data.energy }} },
+        { "id" : "sensor5", "value" : {{ data.humidity }} }
+    ]
+} 

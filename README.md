@@ -20,7 +20,7 @@ The code provides an example configuration file "config.ini.sample" you will nee
 
 ```
 [DEFAULT]
-MongoDBURI = mongodb+srv://user:pass@cluster1.6k3jv.mongodb.net/testdb?retryWrites=true&w=majority
+MongoDBURI = mongodb+srv://user:pass@cluster.mongodb.net/testdb?retryWrites=true&w=majority
 Machines = 500
 TimeInMinutes = 10
 DB_NAME=testdb

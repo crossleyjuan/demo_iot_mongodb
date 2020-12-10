@@ -24,7 +24,8 @@ def humidity(self):
 
 def location(self):
     coord = self.fake.local_latlng(country_code='ES', coords_only=True)
-    return [ float(coord[0]), float(coord[1]) ]
+    return [ float(coord[1]), float(coord[0]) ]
+    #return [ float(coord[0]), float(coord[1]) ]
 
 def cacharro(fake, id):
     return {

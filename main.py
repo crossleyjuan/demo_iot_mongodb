@@ -20,19 +20,19 @@ client = MongoClient(URI)
 
 col = client[DB_NAME][COL_NAME]
 
-edificios = []
+buildings = []
 
 def initialize_db():
     col.drop()
-    col.create_index([ ( "date_from", DESCENDING ), ("edificio", ASCENDING), ("id", ASCENDING), ("sensor", ASCENDING) ])
+    col.create_index([ ("building", ASCENDING), ("cacharro", ASCENDING), ("sensor", ASCENDING), ( "date_from", DESCENDING ) ])
     col.create_index([ ( "location", "2dsphere" )]) #    col.create_index([ ( "date_from", DESCENDING ), ("data.vars.id", ASCENDING), ("data.vars.value", ASCENDING) ])
 
 # this will recover some values from the current database to use them
 # as filters
 def init_defaults():
-    global edificios
-    if len(edificios) == 0:
-        edificios = [ r for r in col.distinct("edificio") ]
+    global buildings
+    if len(buildings) == 0:
+        buildings = [ r for r in col.distinct("building") ]
 
 def get_template():
     with open("template.json") as f:
@@ -48,7 +48,7 @@ def simple_1(loops):
         for i in range(0, MACHINES):
             fake.current_cacharro(i)
             result = json.loads(template.render(data=fake))
-            result["edificio"] = fake["building"]
+            result["building"] = fake["building"]
             result["location"] = fake["location"]
             data.append(result)
 
@@ -72,7 +72,7 @@ def simple_2(loops):
     fake = FakeWrapper()
 
     template = Template(get_template())
-    edificio = fake["building"]
+    building = fake["building"]
     location = fake["location"]
 
     for x in range(0, loops):
@@ -84,7 +84,7 @@ def simple_2(loops):
             result = json.loads(template.render(data=fake))
             date_from = datetime.now().replace(minute = 0,second=0, microsecond=0)
             for sensor in result["vars"]:
-                filter = { "edificio": edificio, "id": result["id"], "sensor": sensor["id"], "date_from": date_from }
+                filter = { "building": building, "cacharro": result["cacharro"], "sensor": sensor["id"], "date_from": date_from }
                 update = { 
                     "$set": { "location": location },
                     "$inc": { "count": 1, "total_value_bucket": sensor["value"] },
@@ -110,13 +110,13 @@ def test_q1():
     init_defaults()
 
     timestamp = datetime(2020, 12, 4, 15, 53, 34, 11000)
-    id = "Maquina 0"
-    building = edificios[0]
+    cacharro = "Maquina 0"
+    building = buildings[0]
     sensor = "sensor2"
 
     date_from = timestamp.replace(second=0, microsecond=0)
     start_time = datetime.now()
-    filter = { "$match": { "edificio": building, "id": id, "sensor": sensor, "date_from": date_from  } }
+    filter = { "$match": { "building": building, "cacharro": cacharro, "sensor": sensor, "date_from": date_from  } }
     unwind = { "$unwind": "$data" }
     filter_record = { "$match": { "data.date": timestamp } }
     unwind_sensors = { "$unwind": "$data.vars" }
@@ -137,12 +137,12 @@ def test_q1a():
 
     q1_starttime = datetime(2020, 12, 10, 0, 0, 00)
     q1_endtime = datetime(2020, 12, 11, 23, 59, 00)
-    id = "Maquina 0"
-    building = edificios[0]
+    cacharro = "Maquina 0"
+    building = buildings[0]
     sensor = "sensor4"
 
     start_time = datetime.now()
-    filter = { "$match": { "edificio": building, "id": id, "sensor": sensor, "date_from": { "$gt": q1_starttime, "$lt": q1_endtime } } }
+    filter = { "$match": { "building": building, "cacharro": cacharro, "sensor": sensor, "date_from": { "$gt": q1_starttime, "$lt": q1_endtime } } }
  #   unwind = { "$unwind": "$data" }
  #   unwind_sensors = { "$unwind": "$data.vars" }
  #   filter_sensor = { "$match": { "data.vars.id": sensor } }
@@ -164,12 +164,12 @@ def test_q2():
 
     q1_starttime = datetime(2020, 12, 1, 0, 0, 00)
     q1_endtime = datetime(2020, 12, 31, 0, 0, 00)
-    id = "Maquina 0"
-    building = edificios[0]
+    cacharro = "Maquina 0"
+    building = buildings[0]
     sensor = "sensor4"
 
     start_time = datetime.now()
-    filter = { "$match": { "edificio": building, "id": id, "sensor": sensor, "date_from": { "$gt": q1_starttime, "$lt": q1_endtime }  } }
+    filter = { "$match": { "building": building, "cacharro": cacharro, "sensor": sensor, "date_from": { "$gt": q1_starttime, "$lt": q1_endtime }  } }
     group = { 
         "$group": { 
             "_id": "$sensor", 
@@ -196,11 +196,11 @@ def test_q3():
 
     q1_starttime = datetime(2020, 12, 1, 0, 0, 00)
     q1_endtime = datetime(2020, 12, 31, 0, 0, 00)
-    id = "Maquina 0"
-    building = edificios[0]
+    cacharro = "Maquina 0"
+    building = buildings[0]
 
     start_time = datetime.now()
-    filter = { "$match": { "edificio": building, "id": id, "date_from": { "$gt": q1_starttime, "$lt": q1_endtime }  } }
+    filter = { "$match": { "building": building, "cacharro": cacharro, "date_from": { "$gt": q1_starttime, "$lt": q1_endtime }  } }
     group = { 
         "$group": { 
             "_id": "$sensor", 
@@ -223,7 +223,7 @@ def test_q3():
 def test_q4():
     init_defaults()
 
-    id = "Maquina 0"
+    cacharro = "Maquina 0"
 
     start_time = datetime.now()
 
@@ -275,11 +275,11 @@ def test_q5():
     print(timespan)
 
 loops = 60*TIMEINMINS
-#initialize_db()
+initialize_db()
 #simple_2(loops)
-test_q1() # un sensor en un momento de tiempo
-test_q1a()
-test_q2()
-test_q3()
-test_q4()
-test_q5()
+#test_q1() # un sensor en un momento de tiempo
+#test_q1a()
+#test_q2()
+#test_q3()
+#test_q4()
+#test_q5()

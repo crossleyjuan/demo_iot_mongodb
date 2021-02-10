@@ -27,9 +27,9 @@ def location(self):
     return [ float(coord[1]), float(coord[0]) ]
     #return [ float(coord[0]), float(coord[1]) ]
 
-def cacharro(fake, id):
+def cacharro(fake, cacharro):
     return {
-        "id": "Maquina %d" % id
+        "cacharro": "Maquina %d" % cacharro
     }
 
 def current_cacharro(self):

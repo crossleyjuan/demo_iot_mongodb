@@ -1,5 +1,5 @@
 { 
-    "id" : "{{ data.cacharro.id }}", 
+    "cacharro" : "{{ data.cacharro.cacharro }}", 
     "vars" : [ 
         { "id" : "sensor1", "value" : {{ data.temperatura }} },
         { "id" : "sensor2", "value" : {{ data.energy }} },

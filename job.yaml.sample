@@ -1,0 +1,228 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: q1-job
+  labels:
+      app: q1-job
+spec:
+  completions: 50
+  parallelism: 50 
+  template:
+    metadata:
+      name: q1-job
+    spec:
+      containers:
+      - name: job
+        image: "IMAGE"
+        resources:
+            requests:
+                cpu: "0.2"
+            limits:
+                cpu: "0.2"
+        env:
+            - name: DATABASE
+              value: "dbname"
+            - name: COLLECTION
+              value: "testqueries"
+            - name: URI
+              value: "MONGO DB URI"
+            - name: EXECUTION_TIME
+              value: "5"
+            - name: TIME_IN_MILIS_BETWEEN_EXECUTIONS
+              value: "100"
+            - name: TEST_CASE
+              value: "1"
+      restartPolicy: Never
+  # of retries before marking as failed.
+  backoffLimit: 4
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: q2-job
+  labels:
+      app: q2-job
+spec:
+  completions: 50
+  parallelism: 50
+  template:
+    metadata:
+      name: q2-job
+    spec:
+      containers:
+      - name: job
+        image: "IMAGE"
+        resources:
+            requests:
+                cpu: "0.2"
+            limits:
+                cpu: "0.2"
+        env:
+            - name: DATABASE
+              value: "dbname"
+            - name: COLLECTION
+              value: "testqueries"
+            - name: URI
+              value: ""
+            - name: EXECUTION_TIME
+              value: "5"
+            - name: TIME_IN_MILIS_BETWEEN_EXECUTIONS
+              value: "100"
+            - name: TEST_CASE
+              value: "2"
+      restartPolicy: Never
+  # of retries before marking as failed.
+  backoffLimit: 4
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: q1a-job
+  labels:
+      app: q1a-job
+spec:
+  completions: 50
+  parallelism: 50
+  template:
+    metadata:
+      name: q1a-job
+    spec:
+      containers:
+      - name: job
+        image: "IMAGE"
+        resources:
+            requests:
+                cpu: "0.2"
+            limits:
+                cpu: "0.2"
+        env:
+            - name: DATABASE
+              value: "dbname"
+            - name: COLLECTION
+              value: "testqueries"
+            - name: URI
+              value: "MONGODB URI"
+            - name: EXECUTION_TIME
+              value: "5"
+            - name: TIME_IN_MILIS_BETWEEN_EXECUTIONS
+              value: "100"
+            - name: TEST_CASE
+              value: "1a"
+      restartPolicy: Never
+  # of retries before marking as failed.
+  backoffLimit: 4
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: q3-job
+  labels:
+      app: q3-job
+spec:
+  completions: 50
+  parallelism: 50
+  template:
+    metadata:
+      name: q3-job
+    spec:
+      containers:
+      - name: job
+        image: "IMAGE"
+        resources:
+            requests:
+                cpu: "0.2"
+            limits:
+                cpu: "0.2"
+        env:
+            - name: DATABASE
+              value: "dbname"
+            - name: COLLECTION
+              value: "testqueries"
+            - name: URI
+              value: "MONGODB URI"
+            - name: EXECUTION_TIME
+              value: "5"
+            - name: TIME_IN_MILIS_BETWEEN_EXECUTIONS
+              value: "100"
+            - name: TEST_CASE
+              value: "3"
+      restartPolicy: Never
+  # of retries before marking as failed.
+  backoffLimit: 4
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: q4-job
+  labels:
+      app: q4-job
+spec:
+  completions: 50
+  parallelism: 50
+  template:
+    metadata:
+      name: q4-job
+    spec:
+      containers:
+      - name: job
+        image: "IMAGE"
+        resources:
+            requests:
+                cpu: "0.2"
+            limits:
+                cpu: "0.2"
+        env:
+            - name: DATABASE
+              value: "dbname"
+            - name: COLLECTION
+              value: "testqueries"
+            - name: URI
+              value: "MONGODB URI"
+            - name: EXECUTION_TIME
+              value: "5"
+            - name: TIME_IN_MILIS_BETWEEN_EXECUTIONS
+              value: "100"
+            - name: TEST_CASE
+              value: "4"
+      restartPolicy: Never
+  # of retries before marking as failed.
+  backoffLimit: 4
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: q5-job
+  labels:
+      app: q5-job
+spec:
+  completions: 50
+  parallelism: 50
+  template:
+    metadata:
+      name: q5-job
+    spec:
+      containers:
+      - name: job
+        image: "IMAGE"
+        resources:
+            requests:
+                cpu: "0.2"
+            limits:
+                cpu: "0.2"
+        env:
+            - name: DATABASE
+              value: "dbname"
+            - name: COLLECTION
+              value: "testqueries"
+            - name: URI
+              value: "MONGODB URI"
+            - name: EXECUTION_TIME
+              value: "5"
+            - name: TIME_IN_MILIS_BETWEEN_EXECUTIONS
+              value: "100"
+            - name: TEST_CASE
+              value: "5"
+      restartPolicy: Never
+  # of retries before marking as failed.
+  backoffLimit: 4
